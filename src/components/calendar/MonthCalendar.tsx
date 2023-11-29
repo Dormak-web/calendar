@@ -1,49 +1,95 @@
 import React, {useEffect, useState} from "react";
 import {getCalendarMonth} from "utils/calendar";
 import {
-  MonthCalendarBody, MonthCalendarBodyCell,
-  MonthCalendarBodyRow,
-  MonthCalendarContainer,
-  MonthCalendarHead
+  StyledChangeMonthActions,
+  StyledMonthCalendarBody,
+  StyledMonthCalendarBodyRow,
+  StyledMonthCalendarContainer,
+  StyledMonthCalendarHead,
+  StyledMonthCalendarHeadCell,
+  StyledMonthCalendarHeadRow,
+  StyledMonthCalendarHeadTop
 } from "styles/components/calendar/MonthCalendar";
-import DayCalendar from "components/calendar/DayCalendar";
-import {week} from "constants/calendar";
+import {Months, Week} from "constants/calendar";
+import CalendarBodyCellTitle from "components/calendar/CalendarBodyCellTitle";
+import TaskList from "components/calendar/TaskList";
+import {Day} from "interfaces/calendar";
+import Button from "components/Button";
+import MonthCalendarBodyCell from "components/calendar/MonthCalendarBodyCell";
 
 const MonthCalendar = () => {
   // @todo refactoring
 
-  const [dates, setDates] = useState<number[][]>([])
-  const date = new Date()
-  date.setDate(1);
+  const [dates, setDates] = useState<Day[][]>([])
+  const [month, setMonth] = useState('');
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     setDates(getCalendarMonth(date))
+    setMonth(`${Months[date.getMonth()]} ${date.getFullYear()}`)
 
-  }, [])
+  }, [date])
+
+  const handleToday = () => {
+    setDate(new Date())
+  }
+
+  const handleChangeMonth = (n: number) => {
+    let newDate = date;
+    newDate.setMonth(newDate.getMonth() + n)
+    setDate(new Date(newDate));
+  }
 
   return (
-    <MonthCalendarContainer>
-      <MonthCalendarHead>
-        {week.map(day => <span>{day}</span>)}
-        {/*<MonthCalendarHeadRow>*/}
-        {/*  <MonthCalendarHeadCell>*/}
+    <StyledMonthCalendarContainer>
+      <StyledMonthCalendarHead>
+        <StyledMonthCalendarHeadTop>
+          <div style={{display: "flex"}}>
+            <Button
+              onClick={handleToday}
+            >
+              today
+            </Button>
+            <StyledChangeMonthActions>
+              <Button onClick={() => handleChangeMonth(1)}>
+                +
+              </Button>
 
-        {/*  </MonthCalendarHeadCell>*/}
-        {/*</MonthCalendarHeadRow>*/}
-      </MonthCalendarHead>
+              <Button onClick={() => handleChangeMonth(-1)}>
+                -
+              </Button>
+            </StyledChangeMonthActions>
+          </div>
+          <b>{month}</b>
+          <div>
+            <Button css={{marginRight: '$1'}}>week</Button>
+            <Button>month</Button>
+          </div>
+        </StyledMonthCalendarHeadTop>
+        <StyledMonthCalendarHeadRow>
+          {Week.map(day =>
+            <StyledMonthCalendarHeadCell>
+              {day}
+            </StyledMonthCalendarHeadCell>
+          )}
+        </StyledMonthCalendarHeadRow>
+      </StyledMonthCalendarHead>
 
-      <MonthCalendarBody>
+      <StyledMonthCalendarBody>
         {dates.map(row =>
-          <MonthCalendarBodyRow>
-            {row.map((item) =>
+          <StyledMonthCalendarBodyRow>
+            {row.map((item: any) =>
               <MonthCalendarBodyCell>
-                <DayCalendar day={item}/>
+                <CalendarBodyCellTitle day={item.dayMonth} length={item.tasks.length}/>
+
+                <TaskList tasks={item.tasks}/>
               </MonthCalendarBodyCell>
             )}
-          </MonthCalendarBodyRow>
+          </StyledMonthCalendarBodyRow>
         )}
-      </MonthCalendarBody>
-    </MonthCalendarContainer>
+      </StyledMonthCalendarBody>
+
+    </StyledMonthCalendarContainer>
   )
 }
 
