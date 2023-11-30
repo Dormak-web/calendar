@@ -5,5 +5,7 @@ export const StyledTaskItem = styled('div', {
   backgroundColor: '#fff',
   padding: '$2',
   margin: '$1',
-  borderRadius: 9999,
+  borderRadius: 5,
+  display: 'flex'
+
 })

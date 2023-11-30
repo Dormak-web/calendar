@@ -43,6 +43,7 @@ export const StyledMonthCalendarBody = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$1',
+  overflow: 'hidden',
 });
 
 export const StyledMonthCalendarBodyRow = styled('div', {

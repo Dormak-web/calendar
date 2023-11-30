@@ -11,7 +11,7 @@ export const StyledButton = styled('button', {
   fontSize: '.875rem',
   fontWeight: '600',
   lineHeight: '1.25rem',
-  padding: '.75rem 1rem',
+  padding: '$2 $3',
   textAlign: 'center',
   textDecoration: 'none #D1D5DB solid',
   textDecorationThickness: 'auto',
@@ -32,5 +32,14 @@ export const StyledButton = styled('button', {
 
   '&:focus-visible': {
     boxShadow: 'none',
+  },
+
+  variants: {
+    size: {
+      small: {
+        padding: '$1 $2',
+      }
+    }
   }
+
 })

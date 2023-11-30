@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {getCalendarMonth} from "utils/calendar";
+import {addTask, editTask, getCalendarMonth, getNewId, removeTask} from "utils/calendar";
 import {
   StyledChangeMonthActions,
   StyledMonthCalendarBody,
@@ -11,21 +11,21 @@ import {
   StyledMonthCalendarHeadTop
 } from "styles/components/calendar/MonthCalendar";
 import {Months, Week} from "constants/calendar";
-import CalendarBodyCellTitle from "components/calendar/CalendarBodyCellTitle";
-import TaskList from "components/calendar/TaskList";
 import {Day} from "interfaces/calendar";
 import Button from "components/Button";
 import MonthCalendarBodyCell from "components/calendar/MonthCalendarBodyCell";
+import CalendarDay from "components/calendar/CalendarDay";
+import {Task} from "interfaces/task";
 
 const MonthCalendar = () => {
   // @todo refactoring
 
-  const [dates, setDates] = useState<Day[][]>([])
+  const [calendar, setCalendar] = useState<Day[][]>([])
   const [month, setMonth] = useState('');
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    setDates(getCalendarMonth(date))
+    setCalendar(getCalendarMonth(date))
     setMonth(`${Months[date.getMonth()]} ${date.getFullYear()}`)
 
   }, [date])
@@ -38,6 +38,27 @@ const MonthCalendar = () => {
     let newDate = date;
     newDate.setMonth(newDate.getMonth() + n)
     setDate(new Date(newDate));
+  }
+
+  const onCreate = (date: Date) => {
+    const newTask: Task = {
+      id: getNewId(),
+      title: '',
+      tags: [],
+      date
+    };
+    const newState = addTask(newTask, calendar);
+    setCalendar([...newState])
+  }
+
+  const onRemove = (task: Task) => {
+    const newState = removeTask(task, calendar);
+    setCalendar([...newState])
+  }
+
+  const onSave = (task: Task) => {
+    const newState = editTask(task, calendar)
+    setCalendar([...newState])
   }
 
   return (
@@ -76,13 +97,16 @@ const MonthCalendar = () => {
       </StyledMonthCalendarHead>
 
       <StyledMonthCalendarBody>
-        {dates.map(row =>
+        {calendar.map(row =>
           <StyledMonthCalendarBodyRow>
-            {row.map((item: any) =>
+            {row.map((item: Day) =>
               <MonthCalendarBodyCell>
-                <CalendarBodyCellTitle day={item.dayMonth} length={item.tasks.length}/>
-
-                <TaskList tasks={item.tasks}/>
+                <CalendarDay
+                  item={item}
+                  onCreate={onCreate}
+                  onRemove={onRemove}
+                  onSave={onSave}
+                />
               </MonthCalendarBodyCell>
             )}
           </StyledMonthCalendarBodyRow>

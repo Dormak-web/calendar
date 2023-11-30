@@ -1,7 +1,12 @@
 import {styled} from "styles/stitches.config";
 
 export const StyledTaskList = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
+  height: '100%',
   overflow: 'auto',
 })
+
+export const StyledTaskListBox = styled('div', {
+
+})
+
+

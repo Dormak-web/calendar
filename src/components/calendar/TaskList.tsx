@@ -3,10 +3,18 @@ import {StyledTaskList} from "styles/components/calendar/StyledTaskList";
 import TaskItem from "components/calendar/TaskItem";
 import {Task} from "interfaces/task";
 
-const TaskList = ({tasks = []}: {tasks: Task[]}) => {
+interface TaskListProps {
+  tasks: Task[],
+  onRemove: Function,
+  onSave: Function,
+}
+
+const TaskList = ({tasks = [], onRemove, onSave}: TaskListProps) => {
   return (
     <StyledTaskList>
-      {tasks.map(task => <TaskItem task={task}/>)}
+      <div>
+        {tasks.map(task => <TaskItem task={task} onRemove={onRemove} onSave={onSave}/>)}
+      </div>
     </StyledTaskList>
   )
 }

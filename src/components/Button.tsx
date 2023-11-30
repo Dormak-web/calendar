@@ -4,13 +4,23 @@ import {StyledButton} from "styles/components/StyledButton";
 
 interface ButtonProps {
   children?: any,
-  onClick?: () => any,
-  css?: Stitches.CSS
+  onClick?: any,
+  css?: Stitches.CSS,
+  size?: 'small'
 }
 
-const Button = ({children, onClick, css}: ButtonProps) => {
+const Button = (props: ButtonProps) => {
+  const {
+    children,
+    onClick,
+    ...res
+  } = props;
+
   return (
-    <StyledButton onClick={onClick} css={css}>
+    <StyledButton
+      onClick={onClick}
+      {...res}
+    >
       {children}
     </StyledButton>
   )
