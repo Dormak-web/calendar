@@ -2,8 +2,11 @@ import {Task} from "interfaces/task";
 import {Day} from "interfaces/calendar";
 
 let taskId = 0;
+let dayId = 0;
+let tagId = 0;
 
-const allTasks: Task[] = []
+
+const allTasks: Task[] = [] // @todo useState
 
 export function getCalendarMonth(date: Date): Day[][] {
   // @todo add interfaces and refactoring
@@ -24,10 +27,10 @@ export function getCalendarMonth(date: Date): Day[][] {
         dayMonth: countDate.getDate(),
         tasks: []
       })
-
       count++;
     }
   }
+  allMonth = fetch(allTasks, allMonth)
 
   return allMonth;
 }
@@ -40,10 +43,24 @@ export function addTask(newTask: Task, state: Day[][]) {
   }
 
   state.map((row) => {
-    if (row[j].dayMonth === newTask.date?.getDate()) {
+    if (compareTwoDate(row[j].date, newTask.date)) {
       row[j].tasks.unshift(newTask)
       allTasks.push(newTask)
     }
+  })
+
+  return state
+}
+
+function compareTwoDate(d1: Date, d2: Date) {
+  return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth()
+}
+
+function fetch(tasks: Task[], state: Day[][]) {
+  tasks.forEach((task) => {
+    const j = task.date.getDay()
+    const row = state.find((day) => compareTwoDate(day[j].date, task.date));
+    if (row) row[j].tasks.push(task);
   })
 
   return state
@@ -57,7 +74,7 @@ export function removeTask(task: Task, state: Day[][]) {
     return state
   }
 
-  const i = state.findIndex(row => row[j].dayMonth === task.date?.getDate());
+  const i = state.findIndex(row => compareTwoDate(row[j].date, task.date));
   const tasks = state[i][j].tasks;
 
   tasks.splice(tasks.findIndex((fTask) => fTask.id === task.id), 1);
@@ -92,21 +109,16 @@ export function showAllTasks() {
   console.log('C! allTas', allTasks)
 }
 
-function getTasks(day: number): Task[] {
-  // @todo remove
-  switch (day) {
-    case 1:
-      return [{id: 'cons-1', title: 'task 1', tags: ['tag1']}]
-    case 12:
-      return [{id: 'cons-2', title: 'task 2'}, {id: 'cons-3', title: 'task 3'}, {id: 'cons-4', title: 'task 4'}]
-    case 26:
-      return [{id: 'cons-5', title: 'task 5'}, {id: 'cons-6', title: 'task 6'}]
-    default:
-      return []
-  }
-}
-
-export function getNewId(): string {
+export function getNewTaskId(): string {
   taskId++
   return 'task-' + taskId;
+}
+export function getNewDayId(): string {
+  dayId++
+  return 'day-' + dayId;
+}
+
+export function getNewTagId(): string {
+  tagId++
+  return 'tag-' + tagId;
 }

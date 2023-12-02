@@ -6,7 +6,8 @@ interface ButtonProps {
   children?: any,
   onClick?: any,
   css?: Stitches.CSS,
-  size?: 'small'
+  size?: 'small',
+  className?: string
 }
 
 const Button = (props: ButtonProps) => {

@@ -11,18 +11,19 @@ export const StyledMonthCalendarContainer = styled('div', {
 export const StyledMonthCalendarHeadTop = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
   padding: '20px 40px',
 })
 
 export const StyledChangeMonthActions = styled('div', {
   marginLeft: '$2',
   display: 'flex',
+  alignItems: 'center',
   gap: '$1',
 })
 
 
 export const StyledMonthCalendarHead = styled('div', {
-  paddingTop: 30,
   backgroundColor: '$gray100',
 });
 
@@ -59,6 +60,23 @@ export const StyledMonthCalendarBodyCell = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   overflow: 'hidden',
+
+  '.btn-create-task': {
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out',
+  },
+
+  '&:hover .btn-create-task': {
+    opacity: 1,
+  },
+
+  variants: {
+    isCurrentM: {
+      true: {
+        backgroundColor: '$gray300'
+      },
+    }
+  }
 });
 
 export const StyledCalendarBodyCellTitle = styled('div', {

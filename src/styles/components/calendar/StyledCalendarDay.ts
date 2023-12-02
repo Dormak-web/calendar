@@ -1,11 +1,11 @@
 import {styled} from "styles/stitches.config";
 
 export const StyledCalendarDay = styled('div', {
-  overflow: 'hidden'
+  overflow: 'hidden',
 })
 
 export const StyledCalendarDayHeader = styled('div', {
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 

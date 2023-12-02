@@ -1,9 +1,9 @@
 import React from "react";
 import {StyledMonthCalendarBodyCell} from "styles/components/calendar/MonthCalendar";
 
-const MonthCalendarBodyCell = ({children}: any) => {
+const MonthCalendarBodyCell = ({children, isCurrentM}: any) => {
   return (
-    <StyledMonthCalendarBodyCell>
+    <StyledMonthCalendarBodyCell isCurrentM={isCurrentM}>
       {children}
     </StyledMonthCalendarBodyCell>
   )
