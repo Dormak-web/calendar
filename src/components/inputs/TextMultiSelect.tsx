@@ -8,20 +8,20 @@ const colourStyles: StylesConfig<any, true> = {
     return {
       ...styles,
       backgroundColor: isSelected
-        ? data.color
+        ? data.color.color
         : isFocused
           ? 'rgba(238, 239, 241, .5)'
           : undefined,
       color: isSelected
         ? 'black'
-        : data.color,
+        : data.color.color,
       cursor: 'default',
 
       ':active': {
         ...styles[':active'],
         backgroundColor: !isDisabled
           ? isSelected
-            ? data.color
+            ? data.color.color
             : 'rgba(235, 235, 235, .5)'
           : undefined,
       },
@@ -35,13 +35,13 @@ const colourStyles: StylesConfig<any, true> = {
   },
   multiValueLabel: (styles, {data}) => ({
     ...styles,
-    color: data.color,
+    color: data.color.color,
   }),
   multiValueRemove: (styles, {data}) => ({
     ...styles,
-    color: data.color,
+    color: data.color.color,
     ':hover': {
-      backgroundColor: data.color,
+      backgroundColor: data.color.color,
       color: 'white',
     },
   }),

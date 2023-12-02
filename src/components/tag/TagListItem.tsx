@@ -24,7 +24,7 @@ const TagListItem = ({tag, onSave, onRemove}: TagListItemProps) => {
   const handleSave = () => {
     const editTag: Tag = {
       id: tag.id,
-      value: label,
+      value: tag.id,
       label,
       color
     }

@@ -1,8 +1,8 @@
 export interface Tag {
-  id: String,
+  id: string,
   label: string,
   color: Color,
-  value: String,
+  value: string,
 }
 
 export interface Color {

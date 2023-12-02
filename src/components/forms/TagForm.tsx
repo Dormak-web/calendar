@@ -22,12 +22,12 @@ const TagForm = ({tags, onAddTag, onSave, onRemove}: TagFormProps) => {
 
   const handleAddTag = () => {
     if(!color) return
-
+    const newId = getNewTagId()
     const newTag: Tag = {
-      id: getNewTagId(),
+      id: newId,
       label,
       color: color,
-      value: label,
+      value: newId,
     }
 
     onAddTag(newTag)
