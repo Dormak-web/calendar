@@ -22,7 +22,7 @@ const TaskForm = ({task, tags, onSave}: TaskFormProps) => {
       id: task.id,
       dayId: task.dayId,
       date: task.date,
-      title,
+      title: title,
       tags: taskTags,
     })
   }

@@ -18,7 +18,7 @@ type TaskItemProps = {
 
 const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
   const [isChange, setIsChange] = useState(false);
-  const [value, setValue] = useState(task.title || '');
+  const [value, setValue] = useState(task.title);
   const [editMode, setEditMode] = useState(true);
   const [mouseIsOver, setMouseIsOver] = useState(false);
 

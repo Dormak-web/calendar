@@ -19,7 +19,7 @@ const TaskList = ({tasks = [], onRemove, onSave, onClick}: TaskListProps) => {
   return (
     <StyledTaskList>
       <SortableContext items={tasksIds}>
-        {tasks.map(task => <TaskItem task={task} onRemove={onRemove} onSave={onSave} onClick={onClick}/>)}
+        {tasks.map(task => <TaskItem key={task.id} task={task} onRemove={onRemove} onSave={onSave} onClick={onClick}/>)}
       </SortableContext>
     </StyledTaskList>
   )

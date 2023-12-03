@@ -7,19 +7,22 @@ interface ButtonProps {
   onClick?: any,
   css?: Stitches.CSS,
   size?: 'small',
-  className?: string
+  className?: string,
+  disabled?: Boolean
 }
 
 const Button = (props: ButtonProps) => {
   const {
     children,
     onClick,
+    disabled,
     ...res
   } = props;
 
   return (
     <StyledButton
       onClick={onClick}
+      disabled={!!disabled}
       {...res}
     >
       {children}

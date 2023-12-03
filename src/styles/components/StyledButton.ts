@@ -34,6 +34,11 @@ export const StyledButton = styled('button', {
     boxShadow: 'none',
   },
 
+  '&:disabled': {
+    backgroundColor: '$gray400',
+    cursor: 'default'
+  },
+
   variants: {
     size: {
       small: {

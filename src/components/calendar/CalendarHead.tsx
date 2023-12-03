@@ -15,7 +15,8 @@ type CalendarHeadProps = {
   month: string
 }
 
-const CalendarHead = ({month, onToday, onChangeMonth, onOpenTagSidebar,}: CalendarHeadProps) => {
+const CalendarHead = ({month, onToday, onChangeMonth, onOpenTagSidebar}: CalendarHeadProps) => {
+
   return (
     <StyledMonthCalendarHead>
       <StyledMonthCalendarHeadTop>
@@ -36,8 +37,10 @@ const CalendarHead = ({month, onToday, onChangeMonth, onOpenTagSidebar,}: Calend
           </StyledChangeMonthActions>
         </div>
         <b>{month}</b>
-        <div>
-          <Button onClick={() => onOpenTagSidebar(SidebarType.Tag)} css={{marginRight: '$1'}}>Tags</Button>
+        <div className='actions'>
+          <Button onClick={() => onOpenTagSidebar(SidebarType.ImportExport)}>Import\Export</Button>
+          <Button onClick={() => onOpenTagSidebar(SidebarType.Tag)}>Tags</Button>
+          <Button onClick={() => onOpenTagSidebar(SidebarType.Filter)}>Filter</Button>
         </div>
       </StyledMonthCalendarHeadTop>
     </StyledMonthCalendarHead>

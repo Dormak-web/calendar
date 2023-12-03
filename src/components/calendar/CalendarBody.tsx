@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   StyledMonthCalendarBody,
   StyledMonthCalendarBodyRow,
@@ -32,11 +32,17 @@ type CalendarBodyProps = {
   onRemove: Function,
   onSave: Function,
   onClickTask: Function,
+  getRef: Function
 }
 
-const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}: CalendarBodyProps) => {
+const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask, getRef}: CalendarBodyProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const printRef = React.useRef<any>();
+
+  useEffect(() => {
+    getRef(printRef)
+  },[printRef])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,7 +53,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
   );
 
   function onDragStart(event: DragStartEvent) {
-    console.log('onDragStart', event, event.active)
 
     if (event.active.data.current) {
       setActiveTask(event.active.data.current.task);
@@ -59,7 +64,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
 
     const {active, over} = event;
 
-    console.log('C! onDragEnd:', active, over)
 
     if (!over) return;
 
@@ -71,7 +75,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
 
   function onDragOver(event: DragOverEvent) {
     const {active, over} = event;
-    console.log('C!1 onDragOver:', active, over)
 
     if (!over) return;
 
@@ -90,8 +93,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
-
-        console.log('C!3 onDragOver:', tasks, activeId, overId)
 
         if (tasks[activeIndex].dayId != tasks[overIndex].dayId) {
           // Fix introduced after video recording
@@ -119,7 +120,7 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
   }
 
   return (
-    <StyledCalendarBody>
+    <StyledCalendarBody ref={printRef}>
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
@@ -137,10 +138,10 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask}:
         </StyledMonthCalendarHeadRow>
 
         <StyledMonthCalendarBody>
-          {calendar.map(row =>
-            <StyledMonthCalendarBodyRow>
+          {calendar.map((row, index) =>
+            <StyledMonthCalendarBodyRow key={index}>
               {row.map((item: Day) =>
-                <MonthCalendarBodyCell isCurrentM={item.date.getMonth() === date.getMonth()}>
+                <MonthCalendarBodyCell key={item.date} isCurrentM={item.date.getMonth() === date.getMonth()}>
                   <CalendarDay
                     item={item}
                     onCreate={onCreate}

@@ -13,6 +13,11 @@ export const StyledMonthCalendarHeadTop = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '20px 40px',
+
+  '& .actions': {
+    display: 'flex',
+    gap: '$1'
+  }
 })
 
 export const StyledChangeMonthActions = styled('div', {
