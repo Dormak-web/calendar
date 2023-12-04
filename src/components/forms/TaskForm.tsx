@@ -20,7 +20,6 @@ const TaskForm = ({task, tags, onSave}: TaskFormProps) => {
   const handleSave = () => {
     onSave({
       id: task.id,
-      dayId: task.dayId,
       date: task.date,
       title: title,
       tags: taskTags,

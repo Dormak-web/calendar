@@ -19,8 +19,6 @@ type TaskItemProps = {
 const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
   const [isChange, setIsChange] = useState(false);
   const [value, setValue] = useState(task.title);
-  const [editMode, setEditMode] = useState(true);
-  const [mouseIsOver, setMouseIsOver] = useState(false);
 
   const {
     setNodeRef,
@@ -35,17 +33,12 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
       type: "Task",
       task,
     },
-    disabled: editMode,
+    // disabled: editMode,
   });
 
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
-  };
-
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
   };
 
   const handleChange = (e: any) => {
@@ -74,24 +67,14 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
     );
   }
 
-  if (editMode) {
-
-  }
-
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
       className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
-      onMouseEnter={() => {
-        setMouseIsOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseIsOver(false);
-      }}
+
     >
       <StyledTaskItem onClick={() => onClick(task)}>
         <TaskItemTags tags={task.tags}/>

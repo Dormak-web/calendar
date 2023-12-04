@@ -10,7 +10,6 @@ import {
   fetchTasks,
   filter,
   getCalendarMonth,
-  getNewDayId,
   getNewTaskId,
   importJSON,
   removeTask
@@ -70,7 +69,6 @@ const CalendarPage = () => {
   const onCreate = (date: Date) => {
     const newTask: Task = {
       id: getNewTaskId(),
-      dayId: getNewDayId(),
       title: '',
       tags: [],
       date
@@ -178,6 +176,8 @@ const CalendarPage = () => {
         }
         body={
           <CalendarBody
+            tasks={tasks}
+            setTasks={setTasks}
             calendar={calendar}
             date={date}
             onCreate={onCreate}

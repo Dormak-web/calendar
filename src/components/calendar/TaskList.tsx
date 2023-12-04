@@ -16,6 +16,7 @@ const TaskList = ({tasks = [], onRemove, onSave, onClick}: TaskListProps) => {
     return tasks.map((task) => task.id);
   }, [tasks]);
 
+
   return (
     <StyledTaskList>
       <SortableContext items={tasksIds}>

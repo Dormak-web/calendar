@@ -5,6 +5,8 @@ export const StyledLayout = styled('div', {
   height: '100vh',
   backgroundColor: '$gray100',
 
+  overflow: 'hidden',
+
   display: 'flex',
   flexDirection: 'column'
 

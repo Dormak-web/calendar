@@ -4,7 +4,6 @@ import {Tag} from "interfaces/tag";
 import {Holiday} from "interfaces/holiday";
 
 let taskId = 0;
-let dayId = 0;
 let tagId = 0;
 
 export function getCalendarMonth(date: Date) {
@@ -21,6 +20,7 @@ export function getCalendarMonth(date: Date) {
       countDate = new Date(date.getFullYear(), date.getMonth(), count);
 
       allMonth[i].push({
+        id: `day-${countDate.getDate()}-${countDate.getMonth()}`,
         date: countDate,
         dayMonth: countDate.getDate(),
         tasks: [],
@@ -159,11 +159,6 @@ export function importJSON(data: any, holidays: Holiday[], date: Date) {
 export function getNewTaskId(): string {
   taskId++
   return 'task-' + taskId;
-}
-
-export function getNewDayId(): string {
-  dayId++
-  return 'day-' + dayId;
 }
 
 export function getNewTagId(): string {

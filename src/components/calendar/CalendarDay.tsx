@@ -7,6 +7,7 @@ import {Day} from "interfaces/calendar";
 import {IconArrowPlus} from "components/icons";
 import HolidayList from "components/calendar/HolidayList";
 import Divider from "components/Divider";
+import {useDroppable} from "@dnd-kit/core";
 
 interface CalendarDayProps {
   item: Day,
@@ -17,16 +18,24 @@ interface CalendarDayProps {
 }
 
 const CalendarDay = ({item, onCreate, onRemove, onSave, onClick}: CalendarDayProps) => {
+  const {setNodeRef} = useDroppable({
+    id: item.id,
+    data: {
+      type: 'Day',
+      date: item.date
+    },
+  });
+
   return (
-    <StyledCalendarDay>
+    <StyledCalendarDay ref={setNodeRef}>
       <StyledCalendarDayHeader>
         <CalendarBodyCellTitle day={item.dayMonth} length={item.tasks.length}/>
         <Button className="btn-create-task" size='small' onClick={() => onCreate(item.date)}><IconArrowPlus/></Button>
       </StyledCalendarDayHeader>
 
-      {!!item.holidays.length && <HolidayList holidays={item.holidays}/>}
+      <HolidayList holidays={item.holidays}/>
       {!!item.holidays.length && !!item.tasks.length && <Divider />}
-      {!!item.tasks.length && <TaskList tasks={item.tasks} onRemove={onRemove} onSave={onSave} onClick={onClick}/>}
+      <TaskList tasks={item.tasks} onRemove={onRemove} onSave={onSave} onClick={onClick}/>
 
     </StyledCalendarDay>
   )

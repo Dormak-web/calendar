@@ -3,6 +3,7 @@ import {Tag} from "interfaces/tag";
 import {Holiday} from "interfaces/holiday";
 
 export interface Day {
+  id: string,
   date: Date,
   dayMonth: number,
   tasks: Task[],

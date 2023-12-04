@@ -32,17 +32,28 @@ type CalendarBodyProps = {
   onRemove: Function,
   onSave: Function,
   onClickTask: Function,
-  getRef: Function
+  getRef: Function,
+
+  tasks: Task[],
+  setTasks: Function,
 }
 
-const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask, getRef}: CalendarBodyProps) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+const CalendarBody = ({
+                        calendar,
+                        date,
+                        onCreate,
+                        onRemove,
+                        onSave,
+                        onClickTask,
+                        getRef,
+                        setTasks
+                      }: CalendarBodyProps) => {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const printRef = React.useRef<any>();
 
   useEffect(() => {
     getRef(printRef)
-  },[printRef])
+  }, [printRef])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -53,7 +64,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask, 
   );
 
   function onDragStart(event: DragStartEvent) {
-
     if (event.active.data.current) {
       setActiveTask(event.active.data.current.task);
     }
@@ -63,7 +73,6 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask, 
     setActiveTask(null);
 
     const {active, over} = event;
-
 
     if (!over) return;
 
@@ -82,41 +91,33 @@ const CalendarBody = ({calendar, date, onCreate, onRemove, onSave, onClickTask, 
     const overId = over.id;
 
     if (activeId === overId) return;
-    const isActiveATask = active.data.current?.type === "Task";
+
     const isOverATask = over.data.current?.type === "Task";
 
+    if (isOverATask) {
+      setTasks((current: Task[]) => {
+        const activeIndex = current.findIndex((t) => t.id === activeId);
+        const overIndex = current.findIndex((t) => t.id === overId);
 
-    if (!isActiveATask) return;
 
-    if (isActiveATask && isOverATask) {
-
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const overIndex = tasks.findIndex((t) => t.id === overId);
-
-        if (tasks[activeIndex].dayId != tasks[overIndex].dayId) {
-          // Fix introduced after video recording
-          tasks[activeIndex].dayId = tasks[overIndex].dayId;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
+        if (current[activeIndex].date != current[overIndex].date) {
+          current[activeIndex].date = current[overIndex].date;
+          return arrayMove(current, activeIndex, overIndex - 1);
         }
 
-        return arrayMove(tasks, activeIndex, overIndex);
+        return arrayMove(current, activeIndex, overIndex);
       });
     }
 
-    const isOverAColumn = over.data.current?.type === "Column";
+    const isOverADay = over.data.current?.type === "Day";
 
-    // Im dropping a Task over a column
-    // @todo
-    // if (isActiveATask && isOverAColumn) {
-    //   setTasks((tasks) => {
-    //     const activeIndex = tasks.findIndex((t) => t.id === activeId);
-    //
-    //     tasks[activeIndex].dayId = overId;
-    //     console.log("DROPPING TASK OVER COLUMN", {activeIndex});
-    //     return arrayMove(tasks, activeIndex, activeIndex);
-    //   });
-    // }
+    if (isOverADay) {
+      setTasks((current: Task[]) => {
+        const activeIndex = current.findIndex((t) => t.id === activeId);
+        current[activeIndex].date = over.data.current?.date;
+        return arrayMove(current, activeIndex, 0);
+      });
+    }
   }
 
   return (
