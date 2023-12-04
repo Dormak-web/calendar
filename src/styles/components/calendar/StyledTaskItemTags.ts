@@ -5,7 +5,8 @@ export const StyledTaskItemTags = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   gap: '$1',
-  marginBottom: '$2'
+  marginBottom: '$2',
+  minHeight: 8,
 })
 
 export const StyledTaskItemTag = styled('div', {

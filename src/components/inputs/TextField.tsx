@@ -4,7 +4,7 @@ import InputLabel from "components/InputLabel";
 
 type TextFieldProps = {
   label: string,
-  value: string,
+  value?: string,
   onChange: (e: string) => void
 }
 

@@ -3,19 +3,23 @@ import {Day, FilterOptions} from "interfaces/calendar";
 import {Tag} from "interfaces/tag";
 import {Holiday} from "interfaces/holiday";
 
-let taskId = 0;
-let tagId = 0;
-
 export function getCalendarMonth(date: Date) {
 
   date.setDate(1); // C?
-  let allMonth: Day[][] = [[], [], [], [], []]
+  let allMonth: Day[][] = [];
   const day = date.getDay()
 
   let count = (day - 1) * -1;
+  const a = new Date(date)
+    a.setMonth(a.getMonth() + 1)
+    a.setDate(0)
+
+  let rowsLength = Math.ceil((day + a.getDate()) / 7)
+
   let countDate: Date = new Date();
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < rowsLength; i++) {
+    allMonth.push([])
     for (let j = 0; j < 7; j++) {
       countDate = new Date(date.getFullYear(), date.getMonth(), count);
 
@@ -157,11 +161,9 @@ export function importJSON(data: any, holidays: Holiday[], date: Date) {
 }
 
 export function getNewTaskId(): string {
-  taskId++
-  return 'task-' + taskId;
+  return 'task-' + Math.floor(Math.random() * 1001);
 }
 
 export function getNewTagId(): string {
-  tagId++
-  return 'tag-' + tagId;
+  return 'tag-' + Math.floor(Math.random() * 1001);
 }

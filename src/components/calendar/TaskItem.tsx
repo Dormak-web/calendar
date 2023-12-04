@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {StyledTaskItem} from "styles/components/calendar/StyledTaskItem";
 import {Task} from "interfaces/task";
 import TextFieldClean from "components/inputs/TextFieldClean";
@@ -20,6 +20,11 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
   const [isChange, setIsChange] = useState(false);
   const [value, setValue] = useState(task.title);
 
+  useEffect(() => {
+    setValue(task.title);
+  }, [task]);
+
+
   const {
     setNodeRef,
     attributes,
@@ -33,7 +38,6 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
       type: "Task",
       task,
     },
-    // disabled: editMode,
   });
 
   const style = {
@@ -46,13 +50,21 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
     setIsChange(true);
   }
 
-  const handleSave = () => {
+  const handleSave = (e: any) => {
+    e.stopPropagation();
+
     onSave({
       ...task,
       title: value
     })
     setIsChange(false);
   }
+
+  const handleRemove = (e: any) => {
+    e.stopPropagation();
+    onRemove(task)
+  }
+
 
   if (isDragging) {
     return (
@@ -91,11 +103,12 @@ const TaskItem = ({task, onRemove, onSave, onClick}: TaskItemProps) => {
               onClick={handleSave}
               size='small'
             >
-              <IconSave/>
+              <IconSave color='red'/>
             </Button>
             :
             <Button
-              onClick={() => onRemove(task)}
+              onClick={handleRemove}
+              className='btn-remove'
               size='small'
             >
               <IconTrash/>

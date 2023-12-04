@@ -28,7 +28,7 @@ const colourStyles: StylesConfig<any> = {
           ? 'rgba(238, 239, 241, .5)'
           : undefined,
       color: isSelected
-        ? 'black'
+        ? 'white'
         : data.color,
       cursor: 'default',
 

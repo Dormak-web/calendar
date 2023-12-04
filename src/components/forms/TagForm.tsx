@@ -18,7 +18,7 @@ type TagFormProps = {
 
 const TagForm = ({tags, onAddTag, onSave, onRemove}: TagFormProps) => {
   const [label, setLabel] = useState('');
-  const [color, setColor] = useState<Color>();
+  const [color, setColor] = useState<Color | null>();
 
   const handleAddTag = () => {
     if(!color) return
@@ -31,6 +31,8 @@ const TagForm = ({tags, onAddTag, onSave, onRemove}: TagFormProps) => {
     }
 
     onAddTag(newTag)
+    setLabel('');
+    setColor(null);
   }
 
   return (
@@ -43,7 +45,7 @@ const TagForm = ({tags, onAddTag, onSave, onRemove}: TagFormProps) => {
 
       <div style={{display: 'flex'}}>
         <StyledTagFormTagList>
-          {tags.map((tag) => <TagListItem tag={tag} onSave={onSave} onRemove={onRemove}/>)}
+          {tags.map((tag) => <TagListItem key={tag.id} tag={tag} onSave={onSave} onRemove={onRemove}/>)}
         </StyledTagFormTagList>
       </div>
     </StyledTagForm>

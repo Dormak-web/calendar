@@ -11,8 +11,12 @@ const TextFieldClean = ({value, onChange, ...res}: any) => {
 
   useEffect(resizeTextArea, [value]);
 
+  const handleClick = (e: any) => {
+    e.stopPropagation();
+  }
+
   return (
-    <StyledTextFieldClean ref={textAreaRef} value={value} onChange={onChange} {...res}>
+    <StyledTextFieldClean ref={textAreaRef} value={value} onChange={onChange} onClick={handleClick} {...res}>
     </StyledTextFieldClean>
   )
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TextField from "components/inputs/TextField";
 import {StyledTaskForm} from "styles/forms/StyledTaskForm";
 import InputLabel from "components/InputLabel";
@@ -14,8 +14,13 @@ type TaskFormProps = {
 }
 
 const TaskForm = ({task, tags, onSave}: TaskFormProps) => {
-  const [title, setTitle] = useState(task?.title || '')
+  const [title, setTitle] = useState(task?.title)
   const [taskTags, setTaskTags] = useState(task.tags || []);
+
+  useEffect(() => {
+    setTitle(task.title);
+    setTaskTags(task.tags);
+  }, [task]);
 
   const handleSave = () => {
     onSave({

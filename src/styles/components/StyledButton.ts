@@ -22,7 +22,7 @@ export const StyledButton = styled('button', {
   touchAction: 'manipulation',
 
   '&:hover': {
-    backgroundColor: 'rgb(249,250,251)',
+    backgroundColor: '$gray100',
   },
 
   '&:focus': {
@@ -44,7 +44,7 @@ export const StyledButton = styled('button', {
       small: {
         padding: '$1 $2',
       }
-    }
+    },
   }
 
 })

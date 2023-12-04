@@ -12,5 +12,14 @@ export const StyledTaskItem = styled('div', {
     display: 'flex',
     alignItems: 'start',
     gap: '$2',
-  }
+  },
+
+  '& .btn-remove': {
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out',
+  },
+
+  '&:hover .btn-remove': {
+    opacity: 1,
+  },
 })

@@ -35,7 +35,7 @@ const CalendarPage = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [holidays, setHolidays] = useState<Holiday[]>([]);
   const [printRef, setPrintRef] = useState<any>();
-  const [openTask, setOpenTask] = useState<Task>();
+  const [openTask, setOpenTask] = useState<Task | null>();
 
   useEffect(()  => {
     fetch(`https://date.nager.at/api/v3/PublicHolidays/${date.getFullYear()}/UA`)
@@ -55,6 +55,7 @@ const CalendarPage = () => {
 
     setMonth(`${Months[date.getMonth()]} ${date.getFullYear()}`)
   }, [date, tasks, holidays])
+
 
   const onToday = () => {
     setDate(new Date())
@@ -82,6 +83,11 @@ const CalendarPage = () => {
   const onRemove = (task: Task) => {
     const [newTasks, newCalendar]: any = removeTask(task, tasks, calendar);
 
+    if(task.id === openTask?.id){
+      setOpenTask(null);
+      setOpenSidebar('')
+    }
+
     setTasks([...newTasks]);
     setCalendar([...newCalendar]);
   }
@@ -91,6 +97,10 @@ const CalendarPage = () => {
 
     setTasks([...newTasks]);
     setCalendar([...newCalendar]);
+
+    if(task.id === openTask?.id){
+      setOpenTask(task);
+    }
   }
 
   const onClickTask = (task: Task) => {

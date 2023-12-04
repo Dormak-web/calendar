@@ -9,6 +9,7 @@ interface ButtonProps {
   size?: 'small',
   className?: string,
   disabled?: Boolean
+  color?: 'primary'
 }
 
 const Button = (props: ButtonProps) => {

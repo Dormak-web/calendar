@@ -131,8 +131,8 @@ const CalendarBody = ({
 
         {/**/}
         <StyledMonthCalendarHeadRow>
-          {Week.map(day =>
-            <StyledMonthCalendarHeadCell>
+          {Week.map((day, index) =>
+            <StyledMonthCalendarHeadCell key={`${day}-${index}`}>
               {day}
             </StyledMonthCalendarHeadCell>
           )}
@@ -142,7 +142,7 @@ const CalendarBody = ({
           {calendar.map((row, index) =>
             <StyledMonthCalendarBodyRow key={index}>
               {row.map((item: Day) =>
-                <MonthCalendarBodyCell key={item.date} isCurrentM={item.date.getMonth() === date.getMonth()}>
+                <MonthCalendarBodyCell key={item.id} isCurrentM={item.date.getMonth() === date.getMonth()}>
                   <CalendarDay
                     item={item}
                     onCreate={onCreate}

@@ -9,7 +9,7 @@ type HolidayListProps = {
 const HolidayList = ({holidays}: HolidayListProps) => {
   return (
     <div>
-      {holidays.map(holiday => <HolidayItem holiday={holiday}/>)}
+      {holidays.map(holiday => <HolidayItem key={holiday.date.getDate()} holiday={holiday}/>)}
     </div>
   )
 }

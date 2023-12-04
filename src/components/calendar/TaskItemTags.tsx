@@ -9,7 +9,7 @@ type TaskItemTagsProps = {
 const TaskItemTags = ({tags}: TaskItemTagsProps) => {
   return (
     <StyledTaskItemTags>
-      {tags.map(tag => <StyledTaskItemTag style={{backgroundColor: tag.color.color}}>
+      {tags.map(tag => <StyledTaskItemTag key={tag.id} style={{backgroundColor: tag.color.color}}>
       </StyledTaskItemTag>)}
     </StyledTaskItemTags>
   )
