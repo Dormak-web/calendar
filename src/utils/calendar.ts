@@ -1,4 +1,6 @@
 import {Day} from "@/interfaces/calendar";
+import {Task} from "@/interfaces/task";
+import {Holiday} from "@/interfaces/holiday";
 
 export function getCalendarMonth(date: Date) {
 
@@ -33,4 +35,28 @@ export function getCalendarMonth(date: Date) {
   }
 
   return allMonth;
+}
+
+
+function compareTwoDate(d1: Date | string, d2: Date | string) {
+  if (typeof d1 === "string") d1 = new Date(d1);
+  if (typeof d2 === "string") d2 = new Date(d2);
+
+  return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth()
+}
+
+export function mergeTasksAndHolidays(tasks: Task[], holidays: Holiday[], calendar: Day[][]) {
+  tasks.forEach((task) => {
+    const j = new Date(task.date).getDay()
+    const row = calendar.find((day) => compareTwoDate(day[j].date, task.date));
+    if (row) row[j].tasks.push(task);
+  })
+
+  holidays.forEach((holiday: Holiday) => {
+    const j = holiday.date.getDay()
+    const row = calendar.find((day) => compareTwoDate(day[j].date, holiday.date));
+    if (row) row[j].holidays.push(holiday);
+  })
+
+  return calendar
 }
