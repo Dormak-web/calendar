@@ -30,10 +30,8 @@ export default function Home() {
       const resHolidays = await fetchHolidays(date.getFullYear())
       setHolidays(resHolidays.map((day: any) => ({date: new Date(day.date), title: day.localName})));
 
-      // C!
       const resTasks = await fetchTask()
       setTasks(resTasks.data)
-      console.log('C! tasks', resTasks, resHolidays)
     }
 
     fetchData()
@@ -44,7 +42,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log('C! useEffect #1')
     setCalendar(mergeTasksAndHolidays(tasks, holidays, getCalendarMonth(date)))
     setMonth(`${Months[date.getMonth()]} ${date.getFullYear()}`)
   }, [date, tasks, holidays])

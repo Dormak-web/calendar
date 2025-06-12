@@ -7,6 +7,7 @@ import {IconArrowPlus} from "@/components/icons/IconPlus";
 import HolidayList from "@/components/calendar/HolidayList";
 import Divider from "@/components/Divider";
 import TaskList from "@/components/calendar/TaskList";
+import {createTask} from "@/api/task";
 
 interface CalendarDayProps {
   item: Day,
@@ -14,9 +15,8 @@ interface CalendarDayProps {
 
 const CalendarDay = ({item}: CalendarDayProps) => {
   const handleCreate = async () => {
-    console.log('Create task')
+    await createTask({title: "", date: item.date})
   }
-
   return (
     <StyledCalendarDay>
       <StyledCalendarDayHeader>

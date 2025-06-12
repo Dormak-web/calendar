@@ -5,6 +5,7 @@ import TextFieldClean from "@/components/inputs/TextFieldClean";
 import Button from "@/components/Button";
 import {IconSave} from "@/components/icons/IconSave";
 import {IconTrash} from "@/components/icons/IconTrash";
+import {deleteTask, updateTask} from "@/api/task";
 
 type TaskItemProps = {
   task: Task,
@@ -26,12 +27,12 @@ const TaskItem = ({task}: TaskItemProps) => {
   const handleSave = async (e: any) => {
     e.stopPropagation();
 
-    console.log('update task')
+    await updateTask({...task, title: value});
     setIsChange(false);
   }
 
   const handleRemove = async (e: any) => {
-    console.log('Remove task')
+    await deleteTask(task.id)
     e.stopPropagation();
   }
 
