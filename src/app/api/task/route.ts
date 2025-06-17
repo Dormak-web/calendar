@@ -1,13 +1,17 @@
 import {sqlApi} from "@/api/database";
 import {NextRequest} from "next/server";
 
-export async function GET(req: NextRequest) {
-  const tasks = sqlApi.getAll()
+export async function GET() {
+  try {
+    const tasks = sqlApi.getAll();
 
-  if (tasks.success) {
-    return Response.json(tasks, {status: 200})
-  } else {
-    return Response.json({error: tasks.error}, {status: 500})
+    if (tasks.success) {
+      return Response.json(tasks, {status: 200})
+    } else {
+      return Response.json({error: tasks.error}, {status: 500})
+    }
+  } catch (error) {
+    return Response.json({error: error}, {status: 500})
   }
 }
 

@@ -37,8 +37,9 @@ export function getCalendarMonth(date: Date) {
   return allMonth;
 }
 
+export function compareTwoDate(d1: Date | string, d2: Date | string) {
+  if(!d1 || !d2) return
 
-function compareTwoDate(d1: Date | string, d2: Date | string) {
   if (typeof d1 === "string") d1 = new Date(d1);
   if (typeof d2 === "string") d2 = new Date(d2);
 

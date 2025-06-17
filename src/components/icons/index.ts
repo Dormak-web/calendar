@@ -4,3 +4,4 @@ export * from '@/components/icons/IconPlus';
 export * from '@/components/icons/IconTrash';
 export * from '@/components/icons/IconSave';
 export * from '@/components/icons/IconClose';
+export * from '@/components/icons/IconSearch';

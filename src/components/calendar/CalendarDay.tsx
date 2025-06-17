@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Day} from "@/interfaces/calendar";
 import {StyledCalendarDay, StyledCalendarDayHeader} from "@/styles/comonents/calendar/StyledCalendarDay";
 import CalendarBodyCellTitle from "@/components/calendar/CalendarBodyCellTitle";
@@ -8,26 +8,52 @@ import HolidayList from "@/components/calendar/HolidayList";
 import Divider from "@/components/Divider";
 import TaskList from "@/components/calendar/TaskList";
 import {createTask} from "@/api/task";
+import {TasksContext} from "@/components/Layout";
+import {useDroppable} from "@dnd-kit/core";
 
 interface CalendarDayProps {
-  item: Day,
+  day: Day,
 }
 
-const CalendarDay = ({item}: CalendarDayProps) => {
+const CalendarDay = ({day}: CalendarDayProps) => {
+  const {tasks, setTasks} = useContext(TasksContext)
+  const {setNodeRef} = useDroppable({
+    id: day.id,
+    data: {
+      type: 'Day',
+      date: day.date
+    },
+  });
+
   const handleCreate = async () => {
-    await createTask({title: "", date: item.date})
+    const res = await createTask({title: "", date: day.date, order: 0});
+    if (res.success) {
+      const newTasks = [...tasks]
+      const ids = day.tasks.map((item) => item.id)
+      newTasks.push(res.data)
+      ids.unshift(res.data.id)
+
+      ids.map((id, index) => {
+        const taskIndex = newTasks.findIndex(ct => ct.id === id)
+        newTasks[taskIndex].order = index
+      })
+
+      setTasks(newTasks.sort((a, b) => a.order - b.order))
+    }
   }
+
   return (
-    <StyledCalendarDay>
+    <StyledCalendarDay ref={setNodeRef}>
       <StyledCalendarDayHeader>
-        <CalendarBodyCellTitle day={item.dayMonth} length={item.tasks.length}/>
+        <CalendarBodyCellTitle day={day.dayMonth} length={day.tasks.length}/>
         <Button className="btn-create-task" size='small' onClick={handleCreate}><IconArrowPlus/></Button>
       </StyledCalendarDayHeader>
 
-      <HolidayList holidays={item.holidays}/>
-      {!!item.holidays.length && !!item.tasks.length && <Divider/>}
-      <TaskList tasks={item.tasks}/>
-
+      <div style={{overflowY: "scroll"}}>
+        <HolidayList holidays={day.holidays}/>
+        {!!day.holidays.length && !!day.tasks.length && <Divider/>}
+        <TaskList tasks={day.tasks}/>
+      </div>
     </StyledCalendarDay>
   )
 }

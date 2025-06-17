@@ -1,6 +1,7 @@
 export type Task = {
-  id: string,
+  id: string | number,
   title?: string,
   date: string,
+  order: number
 }
 

@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useContext, useState} from "react";
 import {
   StyledChangeMonthActions,
   StyledMonthCalendarHead,
+  StyledMonthCalendarHeadActions,
   StyledMonthCalendarHeadTop
 } from "@/styles/comonents/calendar/MonthCalendar";
 import Button from "@/components/Button";
 import {IconArrowUp} from "@/components/icons/IconArrowUp";
 import {IconArrowDown} from "@/components/icons/IconArrowDown";
+import TextField from "@/components/inputs/TextField";
+import {IconClose, IconSearch} from "@/components/icons";
+import {searchTask} from "@/api/task";
+import {TasksContext} from "@/components/Layout";
 
 type CalendarHeadProps = {
   onToday: Function,
@@ -15,11 +20,27 @@ type CalendarHeadProps = {
 }
 
 const CalendarHead = ({month, onToday, onChangeMonth}: CalendarHeadProps) => {
+  const {setTasks} = useContext(TasksContext)
+  const [search, setSearch] = useState("");
+
+  const handleSearch = async (e: any) => {
+    e.stopPropagation();
+
+    const res = await searchTask(search)
+    setTasks(res.data)
+  }
+
+  const handleClear = async (e: any) => {
+    e.stopPropagation();
+    setSearch("")
+    const res = await searchTask("")
+    setTasks(res.data)
+  }
 
   return (
     <StyledMonthCalendarHead>
       <StyledMonthCalendarHeadTop>
-        <div style={{display: "flex", alignItems: 'center'}}>
+        <StyledMonthCalendarHeadActions>
           <Button
             onClick={onToday}
           >
@@ -34,11 +55,17 @@ const CalendarHead = ({month, onToday, onChangeMonth}: CalendarHeadProps) => {
               <IconArrowDown/>
             </Button>
           </StyledChangeMonthActions>
-        </div>
+        </StyledMonthCalendarHeadActions>
         <b>{month}</b>
-        <div className='actions'>
-
-        </div>
+        <StyledMonthCalendarHeadActions>
+          <TextField label="Search" value={search} onChange={setSearch}/>
+          <Button onClick={handleSearch}>
+            <IconSearch/>
+          </Button>
+          <Button onClick={handleClear}>
+            <IconClose/>
+          </Button>
+        </StyledMonthCalendarHeadActions>
       </StyledMonthCalendarHeadTop>
     </StyledMonthCalendarHead>
   )

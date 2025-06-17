@@ -32,6 +32,11 @@ export const StyledMonthCalendarHead = styled('div', {
   backgroundColor: '$gray100',
 });
 
+export const StyledMonthCalendarHeadActions = styled('div', {
+  display: 'flex',
+  gap: '$1',
+});
+
 export const StyledMonthCalendarHeadRow = styled('div', {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr',
